@@ -174,6 +174,14 @@ ngapp.directive('enumerationMembers', function() {
     }
 });
 
+ngapp.directive('modalViewsList', function() {
+    return {
+        restrict: 'E',
+        scope: false,
+        templateUrl: '/partials/modalViewsList.html'
+    }
+});
+
 ngapp.directive('objectSchema', function() {
     return {
         restrict: 'E',
@@ -730,6 +738,16 @@ ngapp.controller('docsController', function($scope, $element, helpService, error
     });
 
     // initialization
+    $scope.xelib = {
+        games: [
+            {name: 'Fallout NV'},
+            {name: 'Fallout 3'},
+            {name: 'Oblivion'},
+            {name: 'Skyrim'},
+            {name: 'Skyrim SE'},
+            {name: 'Fallout 4'}
+        ]
+    };
     themeService.init($scope);
     $scope.topics = helpService.getTopics();
     selectTopic($scope.topics[0]);
