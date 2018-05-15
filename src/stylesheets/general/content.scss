@@ -1,0 +1,70 @@
+body {
+  height: 100vh;
+  margin: 0;
+  user-select: none;
+  font-family: 'Roboto', sans-serif;
+  color: $font_color;
+  background: $background;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+div {
+  cursor: default;
+}
+
+a {
+  color: $action;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+code {
+  background-color: $secondary_background;
+  padding: 0 3px;
+  line-height: 1.4em;
+  @include monospace;
+}
+
+kbd {
+  border: 1px solid $medium_border;
+  border-radius: 3px;
+  padding: 2px 4px;
+  display: inline-block;
+  margin: 3px 0;
+  box-shadow: inset 0 -1px 0 $hard_border;
+  font-size: 90%;
+  border-bottom-color: $hard_border;
+  @include monospace;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content-message {
+  text-align: center;
+  margin: 30px 15px;
+}
+
+.expander {
+  min-width: 16px;
+  text-align: center;
+  font: 14px FontAwesome;
+
+  &.expanded::before {
+    content: "\f078";
+  }
+
+  &.collapsed::before {
+    content: "\f054";
+  }
+}

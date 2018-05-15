@@ -1,0 +1,82 @@
+.monospace {
+  @include monospace;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.limit-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: bottom;
+  max-width: 100%;
+}
+
+.large-text {
+  font-size: 20px;
+}
+
+.subtitle {
+  color: gray;
+}
+
+.right-item {
+  float: right;
+}
+
+.help-tooltip {
+  color: burlywood;
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.flex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.center {
+  text-align : center;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.soft-border {
+  border: 1px solid $soft-border;
+}
+
+.medium-border {
+  border: 1px solid $medium_border;
+}
+
+.hard-border {
+  border: 1px solid $hard_border;
+}
+
+.tint-bg {
+  background-color: $secondary_background;
+}
+
+.positive-bg {
+  background-color: $positive;
+  color: $inverse_font_color;
+}
+
+.negative-bg {
+  background-color: $negative;
+  color: $inverse_font_color;
+}
+
+.positive-fg {
+  color: $positive;
+}
+
+.negative-fg {
+  color: $negative;
+}

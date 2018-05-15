@@ -1,0 +1,121 @@
+api-items {
+  api-items {
+    display: block;
+    margin-left: 20px;
+  }
+
+  > div {
+    border: 1px solid $hard_border;
+    background-color: $background;
+    margin: 16px 0;
+    padding: 12px;
+    border-radius: 5px;
+  }
+
+  .title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    user-select: none;
+
+    .expander {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .icon {
+      font: 18px/1 FontAwesome;
+      margin-left: 4px;
+    }
+  }
+
+  .property-code {
+    display: inline-flex;
+    font-size: 16px;
+    font-weight: normal;
+    margin-left: 14px;
+  }
+
+  .args {
+    display: inline-flex;
+    flex-wrap: wrap;
+    flex: 0 1 auto;
+
+    > span:not(:last-of-type)::after {
+      content: ',';
+      margin-right: 8px;
+      margin-left: -1px;
+      color: $font_color;
+    }
+  }
+
+  .api-section-title {
+    display: block;
+    font-weight: bold;
+    font-size: 17px;
+    margin: 14px 0 8px;
+  }
+
+  .returns {
+    margin-left: 4px;
+    white-space: nowrap;
+
+    .return-arrow {
+      margin: 0 4px;
+      font-size: 20px;
+      line-height: 16px;
+      display: inline-block;
+
+      &::before {
+        content: '\2192';
+      }
+    }
+  }
+
+  .type {
+    font-weight: 500;
+  }
+
+  .type-function {
+    color: $secondary_action;
+  }
+
+  .type-event, .type-handle, .type-array-of-handle {
+    color: $negative;
+  }
+
+  .type-enumeration, .type-boolean, .type-number, .type-integer,
+  .type-unsigned-integer, .type-float, .type-array-of-integer {
+    color: $positive;
+  }
+
+  .type-string, .type-array-of-string,
+  .type-object, .type-array-of-object {
+    color: $neutral;
+  }
+
+  table code {
+    background-color: $secondary_background;
+  }
+
+  .property-description {
+    font-size: 15px;
+    line-height: 20px;
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.tint-bg > div > div > .property-description code {
+  background-color: $background;
+}
+
+.tint-bg > div > div > table {
+  background-color: $background;
+
+  code {
+    background-color: $secondary_background;
+  }
+}

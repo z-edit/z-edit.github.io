@@ -1,0 +1,52 @@
+[
+  {
+    "name": "ElementToJSON",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns element `id` as a JSON string."
+  },
+  {
+    "name": "ElementToObject",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "object"
+    },
+    "description": "Returns element `id` as a JavaScript object."
+  },
+  {
+    "name": "ElementFromJSON",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "path",
+      "type": "string"
+    }, {
+      "name": "json",
+      "type": "string"
+    }],
+    "description": "Creates elements by deserializing `json` in the context of `id` at `path`."
+  },
+  {
+    "name": "ElementFromObject",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "path",
+      "type": "string"
+    }, {
+      "name": "obj",
+      "type": "object"
+    }],
+    "description": "Creates elements from `obj` in the context of `id` at `path`."
+  }
+]

@@ -1,0 +1,47 @@
+@mixin monospace() {
+  font-family: 'Courier New', 'Consolas', monospace;
+}
+
+@mixin dropdown-triangle($offsetLeft) {
+  -webkit-appearance: none;
+
+  background-image:
+          linear-gradient(45deg, transparent 50%, $soft_font_color 50%),
+          linear-gradient(135deg, $soft_font_color 50%, transparent 50%),
+          linear-gradient(to right, $medium_border, $medium_border);
+  background-position:
+          calc(100% - #{$offsetLeft} - 5px) calc(50% + 2px),
+          calc(100% - #{$offsetLeft}) calc(50% + 2px),
+          calc(100% - (#{($offsetLeft + 5) * 2})) 50%;
+  background-size:
+          5px 5px,
+          5px 5px,
+          1px 80%;
+  background-repeat: no-repeat;
+}
+
+@mixin style-scrollbars($bg_color, $medium_color, $hard_color) {
+  ::-webkit-scrollbar {
+    display: block;
+    font-size: initial;
+    min-width: 1em;
+    min-height: 1em;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $medium_color;
+    border: solid $bg_color;
+
+    &:hover {
+      background: $hard_color;
+    }
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: $bg_color;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $bg_color;
+  }
+}

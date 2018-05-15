@@ -1,1 +1,17 @@
-theme: jekyll-theme-cayman
+title: zEdit
+description: An integrated development environment for modding Bethesda Games.
+baseurl: ""
+url: ""
+github_username:  matortheeternal
+
+# Build settings
+markdown: kramdown
+exclude:
+  - .idea
+  - Gemfile
+  - Gemfile.lock
+  - src
+  - node_modules
+  - package.json
+  - package-lock.json
+  - gulpfile.js

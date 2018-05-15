@@ -1,0 +1,41 @@
+{
+  "name": "zedit-website",
+  "productName": "zEdit Website",
+  "description": "zEdit's official website.",
+  "version": "0.0.1",
+  "author": "Mator",
+  "copyright": "© 2018, Mator",
+  "repository": "https://github.com/matortheeternal/zedit-website",
+  "license": "MIT",
+  "scripts": {
+    "build": "gulp build",
+    "watch": "gulp"
+  },
+  "dependencies": {
+    "angular": "1.5.1",
+    "angular-marked": "^1.2.2",
+    "angular-ui-router": "^0.4.3",
+    "codemirror": "^5.37.0",
+    "font-awesome": "^4.7.0",
+    "marked": "^0.3.19",
+    "ui-router-extras": "^0.1.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.2",
+    "fs-jetpack": "^0.10.5",
+    "gulp": "^3.9.0",
+    "gulp-include": "^2.3.1",
+    "gulp-ng-annotate": "^2.1.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "gulp-wait": "0.0.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
+    "vinyl-transform": "^1.0.0"
+  }
+}

@@ -1,0 +1,202 @@
+.docs-view {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  min-width: 1200px;
+  max-width: 1200px;
+  margin: auto;
+
+  .help-navigation {
+    min-width: 270px;
+    position: relative;
+    overflow-y: auto;
+    border-right: 1px solid $hard_border;
+
+    > tree {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 6px 10px;
+
+      > div:last-child {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .help-contents {
+    user-select: initial;
+    flex: 1;
+
+    h1 {
+      border-bottom: 1px solid $hard_border;
+      font-weight: 300;
+      margin: 0;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    ng-include {
+      margin: 16px 16px 40px;
+      display: block;
+    }
+
+    h2 {
+      margin: 0.83em 0 0.5em;
+    }
+
+    ul, p {
+      margin: 0.7em 0;
+    }
+
+    .documentation-warning {
+      color: $negative;
+      font-style: italic;
+    }
+  }
+
+  .nav-items {
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+
+    > button {
+      font-size: 26px;
+
+      &:not(:disabled) {
+        color: $secondary_action;
+      }
+    }
+
+    button.back {
+      margin-right: 2px;
+    }
+  }
+
+  table {
+    margin-left: 12px;
+    border: 1px solid $medium_border;
+    background-color: $secondary_background;
+    font-size: 14.5px;
+    border-collapse: collapse;
+    max-width: 700px;
+
+    &.full-width {
+      max-width: 100%;
+    }
+
+    th {
+      border-bottom: 1px solid $medium_border;
+      padding: 4px 8px;
+      text-align: left;
+    }
+
+    td {
+      padding: 4px 8px;
+      border-bottom: 1px solid $medium_border;
+    }
+
+    code {
+      background-color: $background;
+    }
+
+    .type {
+      border-radius: 3px;
+      color: $inverse_font_color !important;
+      padding: 2px 6px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .type-function {
+      background-color: $secondary_action;
+    }
+
+    .type-event, .type-handle, .type-array-of-handle {
+      background-color: $negative;
+    }
+
+    .type-enumeration, .type-boolean, .type-number, .type-integer,
+    .type-unsigned-integer, .type-float, .type-array-of-integer {
+      background-color: $positive;
+    }
+
+    .type-string, .type-array-of-string,
+    .type-object, .type-array-of-object,
+    .type-array {
+      background-color: $neutral;
+    }
+  }
+
+  .games-list {
+    > span:not(:last-of-type) {
+      margin-right: 6px;
+
+      &::after {
+        content: ',';
+      }
+    }
+  }
+
+  .icon {
+    font: 16px FontAwesome;
+  }
+
+  .icon-warn::before {
+    color: $negative;
+    content: '\f071';
+  }
+}
+
+table.xedit-zedit-comparison {
+  max-width: initial;
+
+  td {
+    padding: 8px;
+  }
+
+  .better {
+    color: $positive;
+    font: 16px FontAwesome;
+    margin-left: 4px;
+
+    &::before {
+      content: '\f087';
+    }
+  }
+
+  .equivalent {
+    color: $neutral;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 16px;
+    margin-left: 4px;
+
+    &::before {
+      content: '=';
+    }
+  }
+
+  .planned {
+    color: $negative;
+    font: 16px FontAwesome;
+    margin-left: 4px;
+
+    &::before {
+      content: '\f250';
+    }
+  }
+
+  .worse {
+    color: $negative;
+    font: 16px FontAwesome;
+    margin-left: 4px;
+
+    &::before {
+      content: '\f088';
+    }
+  }
+}

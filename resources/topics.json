@@ -1,0 +1,201 @@
+[
+  {
+    "label": "Overview",
+    "children": [
+      { "label": "About" },
+      { "label": "Getting Started" },
+      { "label": "xEdit Comparison" },
+      { "label": "Community" }
+    ]
+  },
+  { "label": "Application Modes" },
+  { "label": "Game Modes" },
+  { "label": "Profiles" },
+  {
+    "label": "Modules",
+    "children": [
+      { "label": "Core Modules" },
+      { "label": "Standard Modules" }
+    ]
+  }, {
+    "label": "Views",
+    "modalViews": [{
+      "label": "Manage Extensions Modal",
+      "description": "Allows you install and manage zEdit extensions such as themes and modules."
+    }, {
+      "label": "Help Modal",
+      "description": "Provides documentation and information about zEdit."
+    }],
+    "children": [{
+      "label": "Start View",
+      "modalViews": [{
+        "label": "Profiles Modal",
+        "description": "Allows you to set the default profile, create new profiles, and edit or remove existing profiles."
+      }, {
+        "label": "Load Order Modal",
+        "description": "Allows you to select the load order to load.  Opens automatically when you start a new session."
+      }]
+    }, {
+      "label": "Edit View",
+      "modalViews": [{
+        "label": "Settings Modal",
+        "description": "Allows you to view and global settings and settings for the current profile."
+      }],
+      "children": [{
+        "label": "Tree View",
+        "modalViews": [{
+          "label": "Automate Modal",
+          "description": "Allows you to create, manage, and run scripts."
+        }, {
+          "label": "Edit Columns Modal",
+          "description": "Allows you to manage the columns that are displayed on the view, including creating custom columns."
+        }]
+      }, {
+        "label": "Record View",
+        "modalViews": [{
+          "label": "Edit Value Modal",
+          "description": "Allows you to edit record values."
+        }]
+      }, {
+        "label": "Referenced By View",
+        "modalViews": [{
+          "label": "Edit Columns Modal",
+          "description": "Allows you to manage the columns that are displayed on the view, including creating custom columns."
+        }]
+      }, {
+        "label": "Log View"
+      }]
+    }, {
+      "label": "Clean View",
+      "modalViews": [{
+        "label": "Resolve Modal",
+        "description": "Allows you to select resolutions for errors."
+      }]
+    }, {
+      "label": "Progress View"
+    }]
+  }, {
+    "label": "Modal Views",
+    "children": [
+      { "label": "Help Modal" },
+      { "label": "Manage Extensions Modal" },
+      { "label": "Profiles Modal" },
+      { "label": "Load Order Modal" },
+      {
+        "label": "Settings Modal",
+        "children": [
+          { "label": "Core Settings" },
+          { "label": "Tree View Settings" },
+          { "label": "Record View Settings" },
+          { "label": "Error Caching Settings" }
+        ]
+      },
+      { "label": "Edit Columns Modal" },
+      { "label": "Edit Value Modal" },
+      { "label": "Automate Modal" },
+      {
+        "label": "Resolve Modal",
+        "controller": "resolveModalDocumentationController"
+      },
+      { "label": "Save Modal" }
+    ]
+  }, {
+    "label": "Development",
+    "children": [
+      {
+        "label": "APIs",
+        "children": [
+          {
+            "label": "xelib",
+            "children": [
+              {
+                "label": "Paths",
+                "description": "Information about how xelib handles paths."
+              },
+              {
+                "label": "Meta",
+                "description": "Library-specific functions for tasks such as getting globals and managing handles."
+              },
+              {
+                "label": "Messages",
+                "description": "Log and exception messages in the library."
+              },
+              {
+                "label": "Setup",
+                "description": "Game modes and loading files."
+              },
+              {
+                "label": "Elements",
+                "description": "Functions for handling elements."
+              },
+              {
+                "label": "Element Values",
+                "description": "Functions for getting or settings values on elements."
+              },
+              {
+                "label": "Files",
+                "description": "Functions for handling files."
+              },
+              {
+                "label": "File Values",
+                "description": "Functions for handling groups in files."
+              },
+              {
+                "label": "Records",
+                "description": "Functions for handling records in files."
+              },
+              {
+                "label": "Record Values",
+                "description": "Functions for getting values from records."
+              },
+              {
+                "label": "Masters",
+                "description": "Functions for handling masters in files."
+              },
+              {
+                "label": "Groups",
+                "description": "Functions for handling groups in files."
+              },
+              {
+                "label": "Serialization",
+                "description": "Functions for serializing elements to JSON and deserializing them from JSON."
+              },
+              {
+                "label": "Plugin Errors",
+                "description": "Functions for getting and resolving errors/dirty edits in plugin files."
+              },
+              {
+                "label": "Utils",
+                "description": "Utility functions."
+              }
+            ]
+          },
+          {
+            "label": "Angular Services",
+            "children": [
+              { "label": "Button Factory" },
+              { "label": "Help Service" },
+              { "label": "Progress Service" },
+              { "label": "Timer Service" },
+              { "label": "Settings Service" }
+            ]
+          },
+          { "label": "Logger" },
+          { "label": "Polyfills" },
+          { "label": "File Helpers" },
+          { "label": "Scripting API" },
+          { "label": "Modal API" },
+          { "label": "Module Service" }
+        ]
+      },
+      {
+        "label": "Guides",
+        "children": [
+          { "label": "Creating Modules" },
+          { "label": "Debugging Modules" },
+          { "label": "JavaScript" }
+        ]
+      }
+    ]
+  }
+]

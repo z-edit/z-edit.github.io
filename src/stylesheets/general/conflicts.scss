@@ -1,0 +1,66 @@
+// mixin for adding two colors together
+@mixin conflict-bg($color) {
+  $bg: rgba($color, $transparency);
+  background: linear-gradient(to right, $bg, $bg);
+}
+
+// classes
+.ct-not-defined {
+  color: $soft;
+}
+
+.ct-identical-to-master {
+  color: $medium;
+}
+
+.ct-only-one {
+  color: $base;
+}
+
+.ct-hidden-by-mod-group {
+  color: $very_soft;
+}
+
+.ct-master {
+  color: $purple;
+}
+
+.ct-conflict-benign {
+  color: $base;
+}
+
+.ct-override {
+  color: $green;
+}
+
+.ct-identical-to-master-wins-conflict {
+  color: $olive;
+}
+
+.ct-conflict-wins {
+  color: $orange;
+}
+
+.ct-conflict-loses {
+  color: $red;
+}
+
+.ca-no-conflict {
+  @include conflict-bg($lime);
+}
+
+.ca-conflict-benign {
+  @include conflict-bg($yellow);
+}
+
+.ca-override {
+  @include conflict-bg($yellow);
+}
+
+.ca-conflict {
+  @include conflict-bg($red);
+}
+
+.ca-conflict-critical {
+  @include conflict-bg($fuschia);
+}

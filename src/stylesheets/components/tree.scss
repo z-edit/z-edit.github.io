@@ -1,0 +1,22 @@
+tree {
+  font-size: 14px;
+  display: block;
+
+  > div {
+    margin: 2px 0;
+  }
+
+  .expander {
+    font-size: 12px;
+    min-width: 12px;
+    display: inline-block;
+  }
+
+  .placeholder {
+    padding-right: 1.2em;
+  }
+
+  .selected > span:last-of-type {
+    color: $secondary_action;
+  }
+}

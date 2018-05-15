@@ -1,0 +1,97 @@
+button {
+  font-family: 'Roboto', sans-serif;
+}
+
+.primary-actions {
+  margin: 16px;
+
+  button {
+    font-size: 28px;
+    padding: 8px 16px;
+  }
+}
+
+.action-btn {
+  color: $inverse_font_color !important;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  background-color: $action;
+  border-radius: 2px;
+  border: none;
+  margin: 2px;
+  font-size: 18px;
+  padding: 4px 8px;
+  font-weight: 500;
+  -webkit-transition: background-color 0.2s ease-in-out;
+
+  &.small {
+    font-size: 14px;
+    padding: 2px 6px;
+    vertical-align: middle;
+  }
+
+  &:hover:not(.no-hover) {
+    background-color: $action_hover !important;
+  }
+
+  &.negative {
+    background-color: $negative;
+  }
+
+  &.neutral {
+    background-color: $neutral;
+  }
+
+  &.positive {
+    background-color: $positive;
+  }
+
+  &.small {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+  &:disabled {
+    background-color: $action_disabled !important;
+    cursor: default;
+  }
+}
+
+h2, h3 {
+  button {
+    margin: 0;
+  }
+}
+
+.glyph-button {
+  font-size: 14px;
+  color: $secondary_action;
+  border: none;
+  background: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    color: $soft_font_color;
+  }
+
+  &:hover:not(:disabled) {
+    background: $secondary_background;
+    border: 1px solid $medium_border;
+    border-radius: 4px;
+    padding: 0 5px;
+  }
+}
+
+.browse-button {
+  font: 14px FontAwesome;
+  font-size: inherit;
+  cursor: pointer;
+
+  &:before {
+    content: "\f115";
+  }
+}

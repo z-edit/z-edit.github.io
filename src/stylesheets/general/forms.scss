@@ -1,0 +1,94 @@
+form {
+  .section-title {
+    display: block;
+    vertical-align: top;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  section {
+    display: block;
+    margin-top: 15px;
+    margin-left: 30px;
+    margin-bottom: 30px;
+
+    .subsection {
+      display: block;
+      margin-bottom: 15px;
+      margin-top: 15px;
+
+      span, input {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      span.action-btn {
+        font-size: 16px;
+      }
+
+      .fa {
+        margin-left: 2px;
+        cursor: pointer;
+      }
+    }
+
+    label {
+      display: block;
+    }
+  }
+
+  .input-label {
+    display: inline-block;
+    min-width: 200px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .primary-actions {
+    margin: 16px 0 0;
+    text-align: center;
+
+    .action-btn {
+      font-size: 18px;
+      margin: 1px;
+      padding: 4px 8px;
+    }
+  }
+}
+
+.remove-item {
+  cursor: pointer;
+  color: $negative;
+  font: 14px FontAwesome;
+  font-size: inherit;
+
+  &::before {
+    content: "\f00d";
+  }
+}
+
+input.invalid {
+  outline: 5px auto rgba(255,0,0,0.75);
+  outline-offset: -2px;
+}
+
+input, textarea, select {
+  background-color: $background;
+  color: $font_color;
+  border: 1px solid $hard_border;
+}
+
+input[type="text"] {
+  padding: 2px 4px;
+}
+
+select {
+  padding: 1px 0;
+}
+
+number-input {
+  input {
+    width: 100px;
+    padding: 2px;
+  }
+}
