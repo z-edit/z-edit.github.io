@@ -5,7 +5,6 @@
   min-width: 1200px;
   max-width: 1200px;
   margin: auto;
-  height: 100%;
 
   .help-navigation {
     min-width: 270px;
@@ -31,6 +30,7 @@
     user-select: text;
     border-right: 1px solid $hard_border;
     flex: 1;
+    overflow: auto;
 
     h1 {
       border-bottom: 1px solid $hard_border;

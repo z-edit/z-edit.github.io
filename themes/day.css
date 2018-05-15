@@ -689,8 +689,7 @@ tree {
   padding: 0;
   min-width: 1200px;
   max-width: 1200px;
-  margin: auto;
-  height: 100%; }
+  margin: auto; }
   .docs-view .help-navigation {
     min-width: 270px;
     position: relative;
@@ -708,7 +707,8 @@ tree {
   .docs-view .help-contents {
     user-select: text;
     border-right: 1px solid #888;
-    flex: 1; }
+    flex: 1;
+    overflow: auto; }
     .docs-view .help-contents h1 {
       border-bottom: 1px solid #888;
       font-weight: 300;
