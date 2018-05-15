@@ -172,7 +172,9 @@ body {
   user-select: none;
   font-family: 'Roboto', sans-serif;
   color: #CCC;
-  background: #222; }
+  background: #222;
+  display: flex;
+  flex-direction: column; }
 
 * {
   box-sizing: border-box; }
@@ -204,10 +206,8 @@ kbd {
   border-bottom-color: #777;
   font-family: 'Courier New', 'Consolas', monospace; }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  height: 100%; }
+main {
+  flex: 1; }
 
 .content-message {
   text-align: center;
@@ -222,8 +222,14 @@ kbd {
   .expander.collapsed::before {
     content: "\f054"; }
 
-header .external-links svg {
-  width: 32px; }
+header {
+  border-bottom: 1px solid #777; }
+  header .external-links svg {
+    width: 32px; }
+
+footer {
+  border-top: 1px solid #777;
+  text-align: center; }
 
 button {
   font-family: 'Roboto', sans-serif; }
@@ -663,7 +669,8 @@ tree {
   padding: 0;
   min-width: 1200px;
   max-width: 1200px;
-  margin: auto; }
+  margin: auto;
+  height: 100%; }
   .docs-view .help-navigation {
     min-width: 270px;
     position: relative;
@@ -680,6 +687,7 @@ tree {
         margin-bottom: 10px; }
   .docs-view .help-contents {
     user-select: initial;
+    border-right: 1px solid #777;
     flex: 1; }
     .docs-view .help-contents h1 {
       border-bottom: 1px solid #777;

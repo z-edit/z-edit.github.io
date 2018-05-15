@@ -5,6 +5,8 @@ body {
   font-family: 'Roboto', sans-serif;
   color: $font_color;
   background: $background;
+  display: flex;
+  flex-direction: column;
 }
 
 * {
@@ -44,10 +46,8 @@ kbd {
   @include monospace;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+main {
+  flex: 1;
 }
 
 .content-message {
