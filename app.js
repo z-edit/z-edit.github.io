@@ -731,7 +731,10 @@ ngapp.controller('docsController', function($scope, $element, $location, helpSer
 
     var selectInitialTopic = function() {
         var path = $location.search().t,
+            topic = undefined;
+        errorService.try(function() {
             topic = path && helpService.getTopic(path, expandTopic);
+        });
         selectTopic(topic || $scope.topics[0]);
     };
 
