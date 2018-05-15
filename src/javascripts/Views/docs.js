@@ -11,7 +11,7 @@ ngapp.config(function($stateProvider) {
     });
 });
 
-ngapp.controller('docsController', function($scope, $element, $location, helpService, errorService) {
+ngapp.controller('docsController', function($scope, $element, $location, $timeout, helpService, errorService) {
     // helper variables
     var containerElement = $element[0].firstElementChild;
     $element[0].className = 'docs-view';
@@ -99,5 +99,5 @@ ngapp.controller('docsController', function($scope, $element, $location, helpSer
         ]
     };
     $scope.topics = helpService.getTopics();
-    selectInitialTopic();
+    $timeout(selectInitialTopic, 100);
 });
