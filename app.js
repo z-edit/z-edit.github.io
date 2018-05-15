@@ -528,12 +528,13 @@ ngapp.service('helpService', function(resourceService) {
         }).join('').uncapitalize();
     };
 
-    var processTopics = function(topics, path) {
+    var processTopics = function(topics, path, parent) {
         return topics.map(function(topic) {
             var id = getTopicId(topic);
+            topic.parent = parent;
             topic.templateUrl = '/' + path + '/' + id + '.html';
             if (!topic.children) return topic;
-            topic.children = processTopics(topic.children, path + '/' + id);
+            topic.children = processTopics(topic.children, path + '/' + id, topic);
             return topic;
         });
     };
@@ -562,6 +563,15 @@ ngapp.service('helpService', function(resourceService) {
         }
         if (!result) throw failedToResolveTopicError(path);
         return result;
+    };
+
+    this.getTopicPath = function(topic) {
+        var path = [topic.label];
+        while (topic.parent) {
+            path.unshift(topic.parent.label);
+            topic = topic.parent;
+        }
+        return path.join('/');
     };
 
     // initialization
@@ -700,7 +710,7 @@ ngapp.config(function($stateProvider) {
     });
 });
 
-ngapp.controller('docsController', function($scope, $element, helpService, errorService) {
+ngapp.controller('docsController', function($scope, $element, $location, helpService, errorService) {
     // helper variables
     var containerElement = $element[0].firstElementChild;
     $element[0].className = 'docs-view';
@@ -717,6 +727,12 @@ ngapp.controller('docsController', function($scope, $element, helpService, error
 
     var expandTopic = function(topic) {
         $scope.$broadcast('expandTreeNode', topic);
+    };
+
+    var selectInitialTopic = function() {
+        var path = $location.search().t,
+            topic = path && helpService.getTopic(path, expandTopic);
+        selectTopic(topic || $scope.topics[0]);
     };
 
     // scope functions
@@ -758,6 +774,7 @@ ngapp.controller('docsController', function($scope, $element, helpService, error
 
     $scope.$watch('topic', function() {
         containerElement.scrollTop = 0;
+        $location.search('t', helpService.getTopicPath($scope.topic));
         if ($scope.skipHistory) {
             $scope.skipHistory = false;
             return;
@@ -778,7 +795,7 @@ ngapp.controller('docsController', function($scope, $element, helpService, error
         ]
     };
     $scope.topics = helpService.getTopics();
-    selectTopic($scope.topics[0]);
+    selectInitialTopic();
 });
 
 ngapp.controller('resolveModalDocumentationController', function($scope, errorTypeFactory, errorResolutionFactory) {

@@ -25,12 +25,13 @@ ngapp.service('helpService', function(resourceService) {
         }).join('').uncapitalize();
     };
 
-    var processTopics = function(topics, path) {
+    var processTopics = function(topics, path, parent) {
         return topics.map(function(topic) {
             var id = getTopicId(topic);
+            topic.parent = parent;
             topic.templateUrl = '/' + path + '/' + id + '.html';
             if (!topic.children) return topic;
-            topic.children = processTopics(topic.children, path + '/' + id);
+            topic.children = processTopics(topic.children, path + '/' + id, topic);
             return topic;
         });
     };
@@ -59,6 +60,15 @@ ngapp.service('helpService', function(resourceService) {
         }
         if (!result) throw failedToResolveTopicError(path);
         return result;
+    };
+
+    this.getTopicPath = function(topic) {
+        var path = [topic.label];
+        while (topic.parent) {
+            path.unshift(topic.parent.label);
+            topic = topic.parent;
+        }
+        return path.join('/');
     };
 
     // initialization

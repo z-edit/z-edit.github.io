@@ -11,7 +11,7 @@ ngapp.config(function($stateProvider) {
     });
 });
 
-ngapp.controller('docsController', function($scope, $element, helpService, errorService) {
+ngapp.controller('docsController', function($scope, $element, $location, helpService, errorService) {
     // helper variables
     var containerElement = $element[0].firstElementChild;
     $element[0].className = 'docs-view';
@@ -28,6 +28,12 @@ ngapp.controller('docsController', function($scope, $element, helpService, error
 
     var expandTopic = function(topic) {
         $scope.$broadcast('expandTreeNode', topic);
+    };
+
+    var selectInitialTopic = function() {
+        var path = $location.search().t,
+            topic = path && helpService.getTopic(path, expandTopic);
+        selectTopic(topic || $scope.topics[0]);
     };
 
     // scope functions
@@ -69,6 +75,7 @@ ngapp.controller('docsController', function($scope, $element, helpService, error
 
     $scope.$watch('topic', function() {
         containerElement.scrollTop = 0;
+        $location.search('t', helpService.getTopicPath($scope.topic));
         if ($scope.skipHistory) {
             $scope.skipHistory = false;
             return;
@@ -89,5 +96,5 @@ ngapp.controller('docsController', function($scope, $element, helpService, error
         ]
     };
     $scope.topics = helpService.getTopics();
-    selectTopic($scope.topics[0]);
+    selectInitialTopic();
 });
