@@ -50,7 +50,7 @@ ngapp.service('helpService', function(resourceService) {
     };
 
     this.getTopic = function(path, callback) {
-        var pathParts = path.split('/'),
+        var pathParts = decodeURI(path).split('/'),
             result = topics.findByKey('label', pathParts[0]);
         for (var i = 1; i < pathParts.length; i++) {
             if (!result) break;
