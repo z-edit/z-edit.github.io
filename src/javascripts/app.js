@@ -2,8 +2,8 @@
 //=include src/javascripts/polyfills.js
 // end polyfills
 
-var ngapp = angular.module('zeditDocs', [
-    'ui.router', 'hc.marked'
+var ngapp = angular.module('zeditSite', [
+    'ui.router', 'ct.ui.router.extras', 'hc.marked'
 ]);
 
 ngapp.config(function($compileProvider) {
@@ -22,3 +22,12 @@ ngapp.config(function($compileProvider) {
 ngapp.run(function($rootScope, protocolService) {
     protocolService.init($rootScope);
 });
+
+// state redirects
+ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
+    $rootScope.$on('$stateChangeStart', function (e, toState, params) {
+        if (!toState.redirectTo) return;
+        e.preventDefault();
+        $state.go(toState.redirectTo, params, { location: 'replace' });
+    });
+}]);

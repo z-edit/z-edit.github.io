@@ -1,15 +1,9 @@
 ngapp.config(function($stateProvider) {
-    $stateProvider.state('docs', {
-        url: '',
+    $stateProvider.state('base.docs', {
+        url: '/docs',
         templateUrl: '/partials/docs.html',
         controller: 'docsController',
         resolve: {
-            themes: function(resourceService) {
-                return resourceService.get('resources/themes.json', 'themes');
-            },
-            syntaxThemes: function(resourceService) {
-                return resourceService.get('resources/syntaxThemes.json', 'syntaxThemes');
-            },
             topics: function(resourceService) {
                 return resourceService.get('resources/topics.json', 'topics');
             }
@@ -17,9 +11,10 @@ ngapp.config(function($stateProvider) {
     });
 });
 
-ngapp.controller('docsController', function($scope, $element, helpService, errorService, themeService) {
+ngapp.controller('docsController', function($scope, $element, helpService, errorService) {
     // helper variables
     var containerElement = $element[0].firstElementChild;
+    $element[0].className = 'docs-view';
 
     $scope.history = [];
     $scope.historyIndex = -1;
@@ -93,7 +88,6 @@ ngapp.controller('docsController', function($scope, $element, helpService, error
             {name: 'Fallout 4'}
         ]
     };
-    themeService.init($scope);
     $scope.topics = helpService.getTopics();
     selectTopic($scope.topics[0]);
 });

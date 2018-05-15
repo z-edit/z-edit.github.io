@@ -1,5 +1,6 @@
 require('angular');
 require('angular-ui-router');
+require('ui-router-extras');
 require('angular-marked');
 require('codemirror');
 require('codemirror/mode/css/css.js');

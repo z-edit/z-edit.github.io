@@ -25,7 +25,7 @@ var build = function(src) {
 };
 
 gulp.task('build', function() {
-    build('src/javascripts/zeditDocs.js');
+    build('src/javascripts/app.js');
     build('src/javascripts/vendor.js');
 });
 
