@@ -686,7 +686,7 @@ tree {
       .docs-view .help-navigation > tree > div:last-child {
         margin-bottom: 10px; }
   .docs-view .help-contents {
-    user-select: initial;
+    user-select: text;
     border-right: 1px solid #777;
     flex: 1; }
     .docs-view .help-contents h1 {
