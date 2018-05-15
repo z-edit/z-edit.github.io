@@ -9,7 +9,8 @@
   "license": "MIT",
   "scripts": {
     "build": "gulp build",
-    "watch": "gulp"
+    "watch": "gulp",
+    "dev": "bundle exec jekyll serve --config _config.yml,_config_dev.yml"
   },
   "dependencies": {
     "angular": "1.5.1",
