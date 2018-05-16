@@ -1,4 +1,8 @@
+$fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts" !default;
+
 @import
+'../../node_modules/font-awesome/scss/font-awesome',
+'../../node_modules/codemirror/lib/codemirror',
 'roboto',
 'general/mixins',
 'general/content',

@@ -2,13 +2,23 @@ ngapp.service('themeService', function(resourceService) {
     var service = this;
 
     this.getCurrentTheme = function() {
-        var theme = localStorage.getItem('theme');
-        return resourceService.themes.includes(theme) ? theme : 'day';
+        var filename = localStorage.getItem('theme'),
+            theme = resourceService.themes.findByKey('filename', filename);
+        return theme ? theme.filename : 'day.css';
     };
 
     this.getCurrentSyntaxTheme = function() {
-        var theme = localStorage.getItem('syntaxTheme');
-        return resourceService.syntaxThemes.includes(theme) ? theme : '';
+        var filename = localStorage.getItem('syntaxTheme'),
+            theme = resourceService.syntaxThemes.findByKey('filename', filename);
+        return theme ? theme.filename : '';
+    };
+
+    this.setCurrentTheme = function(themeFileName) {
+        localStorage.setItem('theme', themeFileName);
+    };
+
+    this.setCurrentSyntaxTheme = function(themeFileName) {
+        localStorage.setItem('syntaxTheme', themeFileName);
     };
 
     this.getThemeName = function(filename, defaultName) {
@@ -29,13 +39,13 @@ ngapp.service('themeService', function(resourceService) {
         });
 
         scope.$watch('theme', function() {
-            themeStylesheet.href = '/themes/' + scope.theme + '.css';
+            themeStylesheet.href = '/themes/' + scope.theme;
             scope.$broadcast('themeChanged', scope.theme);
         });
 
         scope.$watch('syntaxTheme', function() {
-            var blank = scope.syntaxTheme === '';
-            syntaxThemeStylesheet.href = blank ? '' : '/syntaxThemes/' + scope.syntaxTheme + '.css';
+            syntaxThemeStylesheet.href = scope.syntaxTheme === '' ?
+                '' : '/syntaxThemes/' + scope.syntaxTheme;
             scope.$broadcast('syntaxThemeChanged', scope.syntaxTheme);
         });
 

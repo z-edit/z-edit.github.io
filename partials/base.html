@@ -1,3 +1,5 @@
 <header></header>
 <main ui-view></main>
 <footer></footer>
+
+<ng-include ng-if="showModal" src="modalOptions.templateUrl" dyn-controller="modalOptions.controller" class="{{modalOptions.class}}"></ng-include>

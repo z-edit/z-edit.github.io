@@ -1,1 +1,22 @@
-["day", "night"]
+[
+  {
+    "name": "Day",
+    "author": "Mator",
+    "version": "1.0",
+    "released": "8/31/2017",
+    "updated": "9/3/2017",
+    "description": "A plain white theme with turqoise-blue buttons.  This is the original zEdit theme.",
+    "syntaxTheme": "",
+    "filename": "day.css"
+  },
+  {
+    "name": "Night",
+    "author": "Mator",
+    "version": "1.0",
+    "released": "9/5/2017",
+    "updated": "9/5/2017",
+    "description": "A dark, nearly black theme with soft blue buttons.",
+    "syntaxTheme": "seti",
+    "filename": "night.css"
+  }
+]

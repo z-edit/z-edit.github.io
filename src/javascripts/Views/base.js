@@ -16,6 +16,7 @@ ngapp.config(function($stateProvider) {
 });
 
 
-ngapp.controller('baseController', function($scope, themeService) {
+ngapp.controller('baseController', function($scope, themeService, modalService) {
     themeService.init($scope);
+    modalService.init($scope);
 });

@@ -76,6 +76,7 @@ ngapp.controller('docsController', function($scope, $element, $location, $timeou
     });
 
     $scope.$watch('topic', function() {
+        if (!$scope.topic) return;
         $element[0].lastChild.scrollTop = 0;
         $location.search('t', helpService.getTopicPath($scope.topic));
         if ($scope.skipHistory) return $scope.skipHistory = false;

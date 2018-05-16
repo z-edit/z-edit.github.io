@@ -108,9 +108,9 @@ ngapp.directive('codeBlock', function(themeService, resourceService, codeMirrorF
         var basePath = scope.basePath || '/docs/development/apis',
             path = basePath + '/' + scope.path;
 
-        resourceService.load(path).then(function() {
+        resourceService.get(path).then(function() {
             // attach code mirror
-            var language = resourceService.getFileExt(scope.path),
+            var language = getFileExt(scope.path),
                 options = codeMirrorFactory.getOptions(language, true),
                 textArea = element[0].firstElementChild,
                 cm = CodeMirror.fromTextArea(textArea, options);

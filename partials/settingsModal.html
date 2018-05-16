@@ -1,0 +1,58 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal big-modal">
+        <form>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+            <h2>Settings</h2>
+            <section>
+                <div>
+                    <span class="input-label">Site Theme</span>
+                    <select ng-model="theme" ng-options="theme.name for theme in themes" ng-change="themeChanged()"></select>
+                </div>
+                <div class="subsection">
+                    <h4>Theme Metadata</h4>
+                    <div class="theme-metadata">
+                        <div>
+                            <span class="input-label">Name</span>
+                            <span>{{theme.name}}</span>
+                        </div>
+                        <div>
+                            <span class="input-label">Author</span>
+                            <span>{{theme.author}}</span>
+                        </div>
+                        <div>
+                            <span class="input-label">Version</span>
+                            <span>{{theme.version}}</span>
+                        </div>
+                        <div>
+                            <span class="input-label">Released</span>
+                            <span>{{theme.released}}</span>
+                        </div>
+                        <div>
+                            <span class="input-label">Updated</span>
+                            <span>{{theme.updated}}</span>
+                        </div>
+                        <div class="theme-description">
+                            <div>Description</div>
+                            <div>{{theme.description}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span class="input-label">Syntax Theme</span>
+                    <select ng-model="syntaxTheme" ng-options="theme.name for theme in syntaxThemes" ng-change="syntaxThemeChanged()">
+                        <option value="">Default</option>
+                    </select>
+                </div>
+                <div class="subsection syntax-theme-preview">
+                    <h4>Syntax Theme Preview</h4>
+                    <textarea code-mirror ng-model="sampleCode"></textarea>
+                </div>
+            </section>
+
+            <div class="primary-actions">
+                <button class="action-btn" ng-click="$emit('closeModal')">OK</button>
+            </div>
+        </form>
+    </div>
+</div>

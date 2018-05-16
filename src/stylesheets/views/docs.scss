@@ -27,7 +27,7 @@
   }
 
   .help-contents {
-    user-select: text;
+    @include user-select(text);
     border-right: 1px solid $hard_border;
     flex: 1;
     overflow: auto;

@@ -8,9 +8,10 @@
   "repository": "https://github.com/matortheeternal/zedit-website",
   "license": "MIT",
   "scripts": {
+    "dev": "gulp dev",
     "build": "gulp build",
-    "watch": "gulp",
-    "dev": "bundle exec jekyll serve --config _config.yml,_config_dev.yml"
+    "themes": "gulp themes",
+    "serve": "bundle exec jekyll serve --config _config.yml,_config_dev.yml"
   },
   "dependencies": {
     "angular": "1.5.1",
@@ -28,6 +29,7 @@
     "browserify": "^16.2.2",
     "fs-jetpack": "^0.10.5",
     "gulp": "^3.9.0",
+    "gulp-if": "^2.0.2",
     "gulp-include": "^2.3.1",
     "gulp-ng-annotate": "^2.1.0",
     "gulp-plumber": "^1.2.0",

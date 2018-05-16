@@ -102,19 +102,24 @@ ngapp.directive('childrenTopics', function() {
     }
 });
 
-ngapp.directive('codeBlock', function(themeService, resourceService, codeMirrorFactory) {
+ngapp.directive('codeBlock', function($timeout, themeService, resourceService, codeMirrorFactory) {
     var linkFn = function(scope, element) {
         // load code
         var basePath = scope.basePath || '/docs/development/apis',
             path = basePath + '/' + scope.path;
 
-        resourceService.load(path).then(function() {
+        var getFileExt = function(path) {
+            return path.match(/.*\.(.*)/)[1];
+        };
+
+        resourceService.get(path).then(function(code) {
             // attach code mirror
-            var language = resourceService.getFileExt(scope.path),
+            var language = getFileExt(scope.path),
                 options = codeMirrorFactory.getOptions(language, true),
                 textArea = element[0].firstElementChild,
                 cm = CodeMirror.fromTextArea(textArea, options);
             cm.setValue(code.trimRight());
+            $timeout(function() { cm.refresh() }, 100);
 
             // event handling
             scope.$on('syntaxThemeChanged', function(e, theme) {
@@ -133,6 +138,34 @@ ngapp.directive('codeBlock', function(themeService, resourceService, codeMirrorF
         },
         template: '<textarea></textarea>',
         link: linkFn
+    }
+});
+
+ngapp.directive('codeMirror', function($timeout, themeService, codeMirrorFactory) {
+    return {
+        restrict: 'A',
+        require: '?ngModel',
+        compile: function() {
+            return function (scope, element, attrs, ngModel) {
+                var options = codeMirrorFactory.getOptions(attrs.codeMirror || 'js'),
+                    cm = CodeMirror.fromTextArea(element[0], options);
+
+                // ng model data binding
+                ngModel.$render = function() { cm.setValue(ngModel.$viewValue || ''); };
+                cm.on('change', function() {
+                    var newValue = cm.getValue();
+                    scope.$evalAsync(function() { ngModel.$setViewValue(newValue) });
+                });
+
+                // event handling
+                scope.$on('refresh', function() { $timeout(cm.refresh) });
+                scope.$on('syntaxThemeChanged', function(e, theme) {
+                    var themeName = themeService.getThemeName(theme, 'default');
+                    cm.setOption('theme', themeName);
+                    cm.refresh();
+                });
+            };
+        }
     }
 });
 
@@ -295,6 +328,44 @@ ngapp.controller('treeController', function($scope) {
     $scope.items.forEach(function(item) {
         buildNode(item, -1);
     });
+});
+
+ngapp.directive('unfocusModal', function($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var el = element[0],
+                mouseDown = false,
+                callback = attrs.unfocusModal && $parse(attrs.unfocusModal),
+                handleMouseUp = function() { mouseDown = false; };
+
+            var clickingScrollBar = function(e) {
+                var hasVerticalScrollBar = el.scrollHeight > el.clientHeight;
+                if (!hasVerticalScrollBar) return;
+                return e.clientX > el.clientWidth - 1;
+            };
+
+            el.addEventListener('mousedown', function(e) {
+                if (clickingScrollBar(e)) return;
+                mouseDown = e.target === el;
+            });
+            el.addEventListener('mouseup', function(e) {
+                if (!mouseDown || e.target !== el) return;
+                if (callback) {
+                    scope.$apply(function() {
+                        callback(scope, {$event: e})
+                    });
+                } else {
+                    scope.$emit('closeModal');
+                }
+            });
+
+            document.addEventListener('mouseup', handleMouseUp);
+            scope.$on('destroy', function() {
+                document.removeEventListener('mouseUp', handleMouseUp);
+            });
+        }
+    }
 });
 
 ngapp.service('codeMirrorFactory', function(themeService) {
@@ -579,6 +650,47 @@ ngapp.service('helpService', function(resourceService) {
     loadCoreTopics()
 });
 
+ngapp.service('modalService', function($rootScope) {
+    var buildOptions = function(label, options) {
+        var basePath = options.basePath || 'partials';
+        return Object.assign({
+            modal: label,
+            templateUrl: basePath + '/' + label + 'Modal.html',
+            controller: label + 'ModalController',
+            class: label.underscore('-') + '-modal'
+        }, options);
+    };
+
+    this.init = function(scope) {
+        var modalActive = function(modalName) {
+            var opts = scope.modalOptions;
+            return $rootScope.modalActive && opts && opts.modal === modalName;
+        };
+
+        scope.activateModal = function(modalName) {
+            if (!modalActive(modalName)) scope.$emit('openModal', modalName);
+        };
+
+        scope.$on('openModal', function(e, label, options) {
+            if (options === undefined) options = {};
+            scope.$evalAsync(function() {
+                $rootScope.modalActive = true;
+                scope.modalOptions = buildOptions(label, options);
+                scope.showModal = true;
+            });
+            e.stopPropagation && e.stopPropagation();
+        });
+
+        scope.$on('closeModal', function(e) {
+            scope.$applyAsync(function() {
+                $rootScope.modalActive = false;
+                scope.modalOptions = undefined;
+                scope.showModal = false;
+            });
+            e.stopPropagation && e.stopPropagation();
+        });
+    };
+});
 ngapp.service('protocolService', function($document) {
     this.init = function(scope) {
         var handleDocsLink = function(href) {
@@ -633,13 +745,23 @@ ngapp.service('themeService', function(resourceService) {
     var service = this;
 
     this.getCurrentTheme = function() {
-        var theme = localStorage.getItem('theme');
-        return resourceService.themes.includes(theme) ? theme : 'day';
+        var filename = localStorage.getItem('theme'),
+            theme = resourceService.themes.findByKey('filename', filename);
+        return theme ? theme.filename : 'day.css';
     };
 
     this.getCurrentSyntaxTheme = function() {
-        var theme = localStorage.getItem('syntaxTheme');
-        return resourceService.syntaxThemes.includes(theme) ? theme : '';
+        var filename = localStorage.getItem('syntaxTheme'),
+            theme = resourceService.syntaxThemes.findByKey('filename', filename);
+        return theme ? theme.filename : '';
+    };
+
+    this.setCurrentTheme = function(themeFileName) {
+        localStorage.setItem('theme', themeFileName);
+    };
+
+    this.setCurrentSyntaxTheme = function(themeFileName) {
+        localStorage.setItem('syntaxTheme', themeFileName);
     };
 
     this.getThemeName = function(filename, defaultName) {
@@ -660,13 +782,13 @@ ngapp.service('themeService', function(resourceService) {
         });
 
         scope.$watch('theme', function() {
-            themeStylesheet.href = '/themes/' + scope.theme + '.css';
+            themeStylesheet.href = '/themes/' + scope.theme;
             scope.$broadcast('themeChanged', scope.theme);
         });
 
         scope.$watch('syntaxTheme', function() {
-            var blank = scope.syntaxTheme === '';
-            syntaxThemeStylesheet.href = blank ? '' : '/syntaxThemes/' + scope.syntaxTheme + '.css';
+            syntaxThemeStylesheet.href = scope.syntaxTheme === '' ?
+                '' : '/syntaxThemes/' + scope.syntaxTheme;
             scope.$broadcast('syntaxThemeChanged', scope.syntaxTheme);
         });
 
@@ -694,8 +816,9 @@ ngapp.config(function($stateProvider) {
 });
 
 
-ngapp.controller('baseController', function($scope, themeService) {
+ngapp.controller('baseController', function($scope, themeService, modalService) {
     themeService.init($scope);
+    modalService.init($scope);
 });
 
 ngapp.config(function($stateProvider) {
@@ -776,6 +899,7 @@ ngapp.controller('docsController', function($scope, $element, $location, $timeou
     });
 
     $scope.$watch('topic', function() {
+        if (!$scope.topic) return;
         $element[0].lastChild.scrollTop = 0;
         $location.search('t', helpService.getTopicPath($scope.topic));
         if ($scope.skipHistory) return $scope.skipHistory = false;
@@ -802,6 +926,54 @@ ngapp.controller('resolveModalDocumentationController', function($scope, errorTy
     $scope.errorTypes = errorTypeFactory.errorTypes();
     $scope.resolutions = errorResolutionFactory.errorResolutions;
 });
+ngapp.controller('settingsModalController', function($scope, $timeout, resourceService, themeService) {
+    // initialization
+    $scope.themes = resourceService.themes;
+    $scope.syntaxThemes = resourceService.syntaxThemes;
+
+    $scope.theme = $scope.themes
+        .findByKey('filename', themeService.getCurrentTheme());
+
+    $scope.syntaxTheme = $scope.syntaxThemes
+        .findByKey('filename', themeService.getCurrentSyntaxTheme()) || '';
+
+    $scope.sampleCode = [
+        'function foo(bar) {',
+        '    if (bar == 1) {',
+        '        return "Foobar";',
+        '    } else if (bar > 1) {',
+        '        return false;',
+        '    } else {',
+        '        return foo(bar + 1);',
+        '    }',
+        '}'
+    ].join('\r\n');
+
+    // helper functions
+    var setSyntaxTheme = function(name) {
+        var syntaxTheme = $scope.syntaxThemes.findByKey('name', name);
+        if (name === '' || syntaxTheme) {
+            $scope.syntaxTheme = syntaxTheme;
+            $scope.syntaxThemeChanged();
+        } else {
+            console.log('Couldn\'t find preferred syntax theme ' + name);
+        }
+    };
+
+    // scope functions
+    $scope.themeChanged = function() {
+        themeService.setCurrentTheme($scope.theme.filename);
+        $scope.$emit('setTheme', $scope.theme.filename);
+        $timeout(function() { setSyntaxTheme($scope.theme.syntaxTheme); }, 100);
+    };
+
+    $scope.syntaxThemeChanged = function() {
+        var syntaxTheme = $scope.syntaxTheme && $scope.syntaxTheme.filename;
+        themeService.setCurrentSyntaxTheme(syntaxTheme || '');
+        $scope.$emit('setSyntaxTheme', syntaxTheme || '');
+    };
+});
+
 //== end angular files ==
 
 ngapp.run(function($rootScope, protocolService) {
