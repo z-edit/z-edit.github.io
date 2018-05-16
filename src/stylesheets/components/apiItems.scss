@@ -16,7 +16,7 @@ api-items {
     font-size: 22px;
     font-weight: bold;
     margin-bottom: 10px;
-    user-select: none;
+    @include user-select(none);
 
     .expander {
       display: inline-block;

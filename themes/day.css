@@ -3350,7 +3350,10 @@ api-items .title {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 10px;
-  user-select: none; }
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none; }
   api-items .title .expander {
     display: inline-block;
     vertical-align: middle; }
