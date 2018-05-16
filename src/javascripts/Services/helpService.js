@@ -63,6 +63,7 @@ ngapp.service('helpService', function(resourceService) {
     };
 
     this.getTopicPath = function(topic) {
+        if (!topic) return;
         var path = [topic.label];
         while (topic.parent) {
             path.unshift(topic.parent.label);

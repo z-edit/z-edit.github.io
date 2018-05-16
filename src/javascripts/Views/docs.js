@@ -13,7 +13,6 @@ ngapp.config(function($stateProvider) {
 
 ngapp.controller('docsController', function($scope, $element, $location, $timeout, helpService, errorService) {
     // helper variables
-    var containerElement = $element[0].firstElementChild;
     $element[0].className = 'docs-view';
 
     $scope.history = [];
@@ -77,12 +76,9 @@ ngapp.controller('docsController', function($scope, $element, $location, $timeou
     });
 
     $scope.$watch('topic', function() {
-        containerElement.scrollTop = 0;
+        $element[0].lastChild.scrollTop = 0;
         $location.search('t', helpService.getTopicPath($scope.topic));
-        if ($scope.skipHistory) {
-            $scope.skipHistory = false;
-            return;
-        }
+        if ($scope.skipHistory) return $scope.skipHistory = false;
         $scope.history.push($scope.topic);
         $scope.historyIndex = $scope.history.length - 1;
     });
