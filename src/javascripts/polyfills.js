@@ -24,7 +24,10 @@ String.prototype.wordCount = function() {
     }
 };
 
-String.prototype.wordwrap = function(width = 60, brk = '\n', cut = false) {
+String.prototype.wordwrap = function(width, brk, cut) {
+    if (width === undefined) width = 60;
+    if (brk === undefined) brk = '\n';
+    if (cut === undefined) cut = false;
     if (this.length === 0) return this;
     var cutExpr = cut ? '|.' + width + '}|.+$' : '|\\S+?(\\s|$)',
         expr = '.{1,' + width + '}(\\s|$)' + cutExpr + '}';
