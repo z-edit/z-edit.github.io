@@ -3,11 +3,7 @@ ngapp.config(function($stateProvider) {
         url: '/docs',
         templateUrl: '/partials/docs.html',
         controller: 'docsController',
-        resolve: {
-            topics: function(resourceService) {
-                return resourceService.get('resources/topics.json', 'topics');
-            }
-        }
+        resolve: resolveResources(['topics', 'moduleTopics'])
     });
 });
 

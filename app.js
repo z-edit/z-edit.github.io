@@ -26,7 +26,10 @@ String.prototype.wordCount = function() {
     }
 };
 
-String.prototype.wordwrap = function(width = 60, brk = '\n', cut = false) {
+String.prototype.wordwrap = function(width, brk, cut) {
+    if (width === undefined) width = 60;
+    if (brk === undefined) brk = '\n';
+    if (cut === undefined) cut = false;
     if (this.length === 0) return this;
     var cutExpr = cut ? '|.' + width + '}|.+$' : '|\\S+?(\\s|$)',
         expr = '.{1,' + width + '}(\\s|$)' + cutExpr + '}';
@@ -45,6 +48,15 @@ Array.prototype.findByKey = function(key, value) {
 var ngapp = angular.module('zeditSite', [
     'ui.router', 'ct.ui.router.extras', 'hc.marked'
 ]);
+
+var resolveResources = function(resourceNames) {
+    return resourceNames.reduce(function(obj, name) {
+        obj[name] = function(resourceService) {
+            return resourceService.get('resources/' + name + '.json', name);
+        };
+        return obj;
+    }, {});
+};
 
 ngapp.config(function($compileProvider) {
     // allow docs:// urls
@@ -211,6 +223,17 @@ ngapp.directive('enumerationMembers', function() {
     }
 });
 
+ngapp.directive('errorTypes', function() {
+    return {
+        restrict: 'E',
+        scope: true,
+        templateUrl: '/partials/errorTypes.html',
+        link: function(scope, errorTypeFactory, errorResolutionFactory) {
+            scope.errorTypes = errorTypeFactory.errorTypes();
+            scope.errorResolutions = errorResolutionFactory.errorResolutions;
+        }
+    }
+});
 ngapp.directive('footer', function() {
     return {
         restrict: 'E',
@@ -618,6 +641,12 @@ ngapp.service('helpService', function(resourceService) {
         topics = processTopics(resourceService.topics, 'docs');
     };
 
+    var loadModuleTopics = function() {
+        resourceService.moduleTopics.forEach(function(t) {
+            service.addTopic(t.topic, t.path);
+        });
+    };
+
     // API FUNCTIONS
     this.getTopics = function() { return topics };
 
@@ -625,11 +654,12 @@ ngapp.service('helpService', function(resourceService) {
         var target = path ? getTopicChildren(path) : topics,
             existingTopic = target.findByKey('label', topic.label);
         if (existingTopic) throw topicExistsError(topic.label);
+        topic.parent = service.getTopic(path);
         target.push(topic);
     };
 
     this.getTopic = function(path, callback) {
-        var pathParts = decodeURI(path).split('/'),
+        var pathParts = decodeURI(path).replace(/_/g, ' ').split('/'),
             result = topics.findByKey('label', pathParts[0]);
         for (var i = 1; i < pathParts.length; i++) {
             if (!result) break;
@@ -647,11 +677,12 @@ ngapp.service('helpService', function(resourceService) {
             path.unshift(topic.parent.label);
             topic = topic.parent;
         }
-        return path.join('/');
+        return path.join('/').replace(/\s/g, '_');
     };
 
     // initialization
-    loadCoreTopics()
+    loadCoreTopics();
+    loadModuleTopics();
 });
 
 ngapp.service('modalService', function($rootScope) {
@@ -808,14 +839,7 @@ ngapp.config(function($stateProvider) {
         redirectTo: 'base.docs',
         templateUrl: '/partials/base.html',
         controller: 'baseController',
-        resolve: {
-            themes: function(resourceService) {
-                return resourceService.get('resources/themes.json', 'themes');
-            },
-            syntaxThemes: function(resourceService) {
-                return resourceService.get('resources/syntaxThemes.json', 'syntaxThemes');
-            }
-        }
+        resolve: resolveResources(['themes', 'syntaxThemes'])
     });
 });
 
@@ -830,11 +854,7 @@ ngapp.config(function($stateProvider) {
         url: '/docs',
         templateUrl: '/partials/docs.html',
         controller: 'docsController',
-        resolve: {
-            topics: function(resourceService) {
-                return resourceService.get('resources/topics.json', 'topics');
-            }
-        }
+        resolve: resolveResources(['topics', 'moduleTopics'])
     });
 });
 
@@ -926,10 +946,6 @@ ngapp.controller('docsController', function($scope, $element, $location, $timeou
     $timeout(selectInitialTopic, 100);
 });
 
-ngapp.controller('resolveModalDocumentationController', function($scope, errorTypeFactory, errorResolutionFactory) {
-    $scope.errorTypes = errorTypeFactory.errorTypes();
-    $scope.resolutions = errorResolutionFactory.errorResolutions;
-});
 ngapp.controller('settingsModalController', function($scope, $timeout, resourceService, themeService) {
     // initialization
     $scope.themes = resourceService.themes;

@@ -40,6 +40,12 @@ ngapp.service('helpService', function(resourceService) {
         topics = processTopics(resourceService.topics, 'docs');
     };
 
+    var loadModuleTopics = function() {
+        resourceService.moduleTopics.forEach(function(t) {
+            service.addTopic(t.topic, t.path);
+        });
+    };
+
     // API FUNCTIONS
     this.getTopics = function() { return topics };
 
@@ -47,6 +53,7 @@ ngapp.service('helpService', function(resourceService) {
         var target = path ? getTopicChildren(path) : topics,
             existingTopic = target.findByKey('label', topic.label);
         if (existingTopic) throw topicExistsError(topic.label);
+        topic.parent = service.getTopic(path);
         target.push(topic);
     };
 
@@ -73,5 +80,6 @@ ngapp.service('helpService', function(resourceService) {
     };
 
     // initialization
-    loadCoreTopics()
+    loadCoreTopics();
+    loadModuleTopics();
 });

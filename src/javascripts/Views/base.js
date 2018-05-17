@@ -4,14 +4,7 @@ ngapp.config(function($stateProvider) {
         redirectTo: 'base.docs',
         templateUrl: '/partials/base.html',
         controller: 'baseController',
-        resolve: {
-            themes: function(resourceService) {
-                return resourceService.get('resources/themes.json', 'themes');
-            },
-            syntaxThemes: function(resourceService) {
-                return resourceService.get('resources/syntaxThemes.json', 'syntaxThemes');
-            }
-        }
+        resolve: resolveResources(['themes', 'syntaxThemes'])
     });
 });
 

@@ -6,6 +6,15 @@ var ngapp = angular.module('zeditSite', [
     'ui.router', 'ct.ui.router.extras', 'hc.marked'
 ]);
 
+var resolveResources = function(resourceNames) {
+    return resourceNames.reduce(function(obj, name) {
+        obj[name] = function(resourceService) {
+            return resourceService.get('resources/' + name + '.json', name);
+        };
+        return obj;
+    }, {});
+};
+
 ngapp.config(function($compileProvider) {
     // allow docs:// urls
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|docs):/);
