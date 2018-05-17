@@ -9,6 +9,7 @@ ngapp.directive('apiItems', function() {
             api: '@',
             basePath: '@',
             path: '@',
+            module: '@',
             items: '=?',
             depth: '=?'
         }
@@ -19,7 +20,14 @@ ngapp.controller('apiItemsController', function(resourceService) {
     var ctrl = this;
     ctrl.tintBg = (ctrl.depth || 0) % 2 === 0;
 
+    var getBasePath = function() {
+        if (ctrl.basePath) return ctrl.basePath.slice(4);
+        if (ctrl.module) return 'modules/' + ctrl.module + '/docs';
+        return 'docs/development/apis';
+    };
+
     var buildItems = function(items) {
+        if (!items) return;
         ctrl.items = items.map(function(item) {
             if (!item.type) item.type = 'function';
             item.isEvent = item.type === 'event';
@@ -27,15 +35,11 @@ ngapp.controller('apiItemsController', function(resourceService) {
         });
     };
 
-    if (ctrl.basePath) ctrl.basePath = ctrl.basePath.slice(4);
-
     if (ctrl.path) {
-        var basePath = ctrl.basePath || '/docs/development/apis',
+        var basePath = getBasePath(),
             path = basePath + '/' + ctrl.path;
-        resourceService.get(path).then(function(items) {
-            if (items) buildItems(items);
-        });
+        resourceService.get(path).then(buildItems);
+    } else {
+        buildItems(ctrl.items);
     }
-
-    if (ctrl.items) buildItems(ctrl.items);
 });
