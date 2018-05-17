@@ -58,7 +58,7 @@ ngapp.service('helpService', function(resourceService) {
     };
 
     this.getTopic = function(path, callback) {
-        var pathParts = decodeURI(path).split('/'),
+        var pathParts = decodeURI(path).replace(/_/g, ' ').split('/'),
             result = topics.findByKey('label', pathParts[0]);
         for (var i = 1; i < pathParts.length; i++) {
             if (!result) break;
@@ -76,7 +76,7 @@ ngapp.service('helpService', function(resourceService) {
             path.unshift(topic.parent.label);
             topic = topic.parent;
         }
-        return path.join('/');
+        return path.join('/').replace(/\s/g, '_');
     };
 
     // initialization
