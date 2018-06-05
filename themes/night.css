@@ -3411,6 +3411,12 @@ api-items .type-string, api-items .type-array-of-string,
 api-items .type-object, api-items .type-array-of-object {
   color: #FFFF55; }
 
+api-items .legacy {
+  opacity: 0.5;
+  transition: opacity 1000ms ease 100ms; }
+  api-items .legacy:hover {
+    opacity: 1.0; }
+
 api-items table code {
   background-color: #303036; }
 
@@ -3550,6 +3556,9 @@ tree {
   .docs-view .icon-warn::before {
     color: #FF5555;
     content: '\f071'; }
+  .docs-view .icon-optional::before {
+    color: #228FFF;
+    content: '\f059'; }
 
 table.xedit-zedit-comparison {
   max-width: initial; }
