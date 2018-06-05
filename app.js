@@ -732,26 +732,23 @@ ngapp.service('modalService', function($rootScope) {
 });
 ngapp.service('protocolService', function($document) {
     this.init = function(scope) {
-        var handleDocsLink = function(href) {
-            scope.$broadcast('helpNavigateTo', href.substr(7));
+        var handleDocsLink = function(href, target) {
+            target.href = '#/docs?t=' + href.substr(7);
         };
 
-        var protocolHandlers = {
-            docs: handleDocsLink
-        };
+        var protocolHandlers = { docs: handleDocsLink };
 
-        var handleLink = function(href) {
+        var handleLink = function(href, target) {
             var protocol = href.match(/([^:]+)/)[1],
                 handler = protocolHandlers[protocol];
-            handler && handler(href);
-            return !!handler;
+            handler && handler(href, target);
         };
 
         // handle link protocols properly
-        $document.bind('click', function(event) {
+        $document.bind('mousedown', function(event) {
             if (event.target.tagName !== 'A') return;
             if (!event.target.href) return;
-            if (handleLink(event.target.href)) event.preventDefault();
+            handleLink(event.target.href, event.target)
         });
     };
 });
@@ -880,12 +877,17 @@ ngapp.controller('docsController', function($scope, $element, $location, $timeou
         $scope.$broadcast('expandTreeNode', topic);
     };
 
-    var selectInitialTopic = function() {
+    var updateLocation = function() {
+        $location.search('t', helpService.getTopicPath($scope.topic))
+    };
+
+    var navigateToUrl = function(nav) {
         var path = $location.search().t,
             topic = undefined;
         errorService.try(function() {
             topic = path && helpService.getTopic(path, expandTopic);
         });
+        if (!nav && !topic) return updateLocation();
         selectTopic(topic || $scope.topics[0]);
     };
 
@@ -912,7 +914,7 @@ ngapp.controller('docsController', function($scope, $element, $location, $timeou
     };
 
     // event listeners
-    $scope.$on("helpNavigateTo", function(e, path) {
+    $scope.$on('helpNavigateTo', function(e, path) {
         $scope.$applyAsync(function() {
             errorService.try(function() {
                 $scope.navigateTo(path);
@@ -926,10 +928,15 @@ ngapp.controller('docsController', function($scope, $element, $location, $timeou
         e.stopPropagation && e.stopPropagation();
     });
 
+    $scope.$on('$locationChangeStart', function(e, newUrl, oldUrl) {
+        if (newUrl === oldUrl) return;
+        navigateToUrl(true);
+    });
+
     $scope.$watch('topic', function() {
         if (!$scope.topic) return;
         $element[0].lastChild.scrollTop = 0;
-        $location.search('t', helpService.getTopicPath($scope.topic));
+        updateLocation();
         if ($scope.skipHistory) return $scope.skipHistory = false;
         $scope.history.push($scope.topic);
         $scope.historyIndex = $scope.history.length - 1;
@@ -947,7 +954,7 @@ ngapp.controller('docsController', function($scope, $element, $location, $timeou
         ]
     };
     $scope.topics = helpService.getTopics();
-    $timeout(selectInitialTopic, 100);
+    $timeout(navigateToUrl, 100);
 });
 
 ngapp.controller('settingsModalController', function($scope, $timeout, resourceService, themeService) {

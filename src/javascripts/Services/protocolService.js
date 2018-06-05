@@ -1,25 +1,22 @@
 ngapp.service('protocolService', function($document) {
     this.init = function(scope) {
-        var handleDocsLink = function(href) {
-            scope.$broadcast('helpNavigateTo', href.substr(7));
+        var handleDocsLink = function(href, target) {
+            target.href = '#/docs?t=' + href.substr(7);
         };
 
-        var protocolHandlers = {
-            docs: handleDocsLink
-        };
+        var protocolHandlers = { docs: handleDocsLink };
 
-        var handleLink = function(href) {
+        var handleLink = function(href, target) {
             var protocol = href.match(/([^:]+)/)[1],
                 handler = protocolHandlers[protocol];
-            handler && handler(href);
-            return !!handler;
+            handler && handler(href, target);
         };
 
         // handle link protocols properly
-        $document.bind('click', function(event) {
+        $document.bind('mousedown', function(event) {
             if (event.target.tagName !== 'A') return;
             if (!event.target.href) return;
-            if (handleLink(event.target.href)) event.preventDefault();
+            handleLink(event.target.href, event.target)
         });
     };
 });
