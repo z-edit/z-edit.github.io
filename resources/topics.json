@@ -13,6 +13,7 @@
   { "label": "Application Modes" },
   { "label": "Game Modes" },
   { "label": "Profiles" },
+  { "label": "Arguments" },
   {
     "label": "Modules",
     "children": [
