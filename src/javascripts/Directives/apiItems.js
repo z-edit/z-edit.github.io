@@ -31,6 +31,7 @@ ngapp.controller('apiItemsController', function(resourceService) {
         ctrl.items = items.map(function(item) {
             if (!item.type) item.type = 'function';
             item.isEvent = item.type === 'event';
+            item.isOptions = item.type === 'options';
             return item;
         });
     };
