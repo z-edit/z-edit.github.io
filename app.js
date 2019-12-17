@@ -101,6 +101,7 @@ ngapp.controller('apiItemsController', function(resourceService) {
         ctrl.items = items.map(function(item) {
             if (!item.type) item.type = 'function';
             item.isEvent = item.type === 'event';
+            item.isOptions = item.type === 'options';
             return item;
         });
     };
@@ -244,6 +245,17 @@ ngapp.directive('footer', function() {
         templateUrl: '/partials/footer.html'
     }
 });
+ngapp.directive('functionOptions', function() {
+    return {
+        restrict: 'E',
+        templateUrl: '/partials/functionOptions.html',
+        scope: {
+            options: '='
+        },
+        replace: true
+    }
+});
+
 ngapp.directive('header', function() {
     return {
         restrict: 'E',
@@ -731,7 +743,7 @@ ngapp.service('modalService', function($rootScope) {
     };
 });
 ngapp.service('protocolService', function($document) {
-    this.init = function(scope) {
+    this.init = function() {
         var handleDocsLink = function(href, target) {
             target.href = '#/docs?t=' + href.substr(7);
         };

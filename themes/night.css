@@ -3408,7 +3408,8 @@ api-items .type-unsigned-integer, api-items .type-float, api-items .type-array-o
   color: #55CC55; }
 
 api-items .type-string, api-items .type-array-of-string,
-api-items .type-object, api-items .type-array-of-object {
+api-items .type-object, api-items .type-array-of-object,
+api-items .type-options {
   color: #FFFF55; }
 
 api-items .legacy {
