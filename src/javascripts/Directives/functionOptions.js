@@ -1,7 +1,7 @@
 ngapp.directive('functionOptions', function() {
     return {
         restrict: 'E',
-        templateUrl: 'partails/functionOptions.html',
+        templateUrl: '/partials/functionOptions.html',
         scope: {
             options: '='
         },
