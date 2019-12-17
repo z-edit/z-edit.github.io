@@ -1,5 +1,5 @@
 ngapp.service('protocolService', function($document) {
-    this.init = function(scope) {
+    this.init = function() {
         var handleDocsLink = function(href, target) {
             target.href = '#/docs?t=' + href.substr(7);
         };
